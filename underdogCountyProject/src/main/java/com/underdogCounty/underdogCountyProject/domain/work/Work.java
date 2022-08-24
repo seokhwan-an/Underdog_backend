@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -18,13 +19,17 @@ public class Work {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String originFileName;
 
+    @NotNull
     private String filePath;
 
+    @NotNull
     private Long fileSize;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     private Category category;
 
     @ManyToOne(targetEntity = Company.class, fetch = FetchType.LAZY)
