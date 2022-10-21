@@ -1,7 +1,9 @@
-package com.underdogCounty.underdogCountyProject.domain.artist;
+package com.underdogCounty.underdogCountyProject.domain.artist.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.underdogCounty.underdogCountyProject.domain.artist.dto.ArtistRequestDto;
 import com.underdogCounty.underdogCountyProject.domain.work.Work;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,8 +31,10 @@ public class Artist {
     @NotNull
     private String contents;
 
-    @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<Work> workList = new ArrayList<>();
-
+    @Builder
+    public void requestToEntity(ArtistRequestDto artistRequestDto){
+        this.name = artistRequestDto.getName();
+        this.agency = artistRequestDto.getAgency();
+        this.contents = artistRequestDto.getContents();
+    }
 }
