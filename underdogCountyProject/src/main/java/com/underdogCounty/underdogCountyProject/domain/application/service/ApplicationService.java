@@ -17,6 +17,9 @@ import java.util.Optional;
 
 @Service
 public class ApplicationService {
+    @Autowired
+    private JavaMailSender javaMailSender;
+    private static final String FROM_ADDRESS = "rg970604@naver.com"; //여기에 대표자 이메일
 
     @Autowired
     private JavaMailSender javaMailSender;
