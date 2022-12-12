@@ -1,7 +1,8 @@
 package com.underdogCounty.underdogCountyProject.domain.application.controller;
 
+import com.underdogCounty.underdogCountyProject.domain.application.dto.ApplicationRequestDto;
+import com.underdogCounty.underdogCountyProject.domain.application.dto.ApplicationResponseDto;
 import com.underdogCounty.underdogCountyProject.domain.application.entity.Application;
-import com.underdogCounty.underdogCountyProject.domain.application.request.ApplicationCreationRequest;
 import com.underdogCounty.underdogCountyProject.domain.application.service.ApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,20 +12,32 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "api/application")
 @RequiredArgsConstructor
 public class ApplicationController {
+
     private final ApplicationService applicationService;
 
     @PostMapping
-    public ResponseEntity<Application> createApplication(@RequestBody ApplicationCreationRequest request){
-        return ResponseEntity.ok(applicationService.createApplication(request));
+    public ResponseEntity<Application> createApplication(@RequestBody ApplicationRequestDto applicationRequestDto) {
+        return ResponseEntity.ok(applicationService.createApplication(applicationRequestDto));
     }
 
     @GetMapping
-    public ResponseEntity readApplicationList(){
-        return ResponseEntity.ok(applicationService.readApplicationList());
+    public ResponseEntity readApplications(@RequestParam(required = false) String name) {
+        return ResponseEntity.ok(applicationService.readApplications(name));
     }
 
-    @GetMapping("/{applicationId}")
-    public ResponseEntity<ApplicationCreationRequest> readApplication(@PathVariable Long applicationId){
-        return ResponseEntity.ok(applicationService.readApplication(applicationId));
+    @GetMapping("/{id}")
+    public ResponseEntity<ApplicationResponseDto> readApplication(@PathVariable Long id) {
+        return ResponseEntity.ok(applicationService.readApplication(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Application> updateApplication(@PathVariable Long id,
+        @RequestBody ApplicationRequestDto applicationRequestDto) {
+        return ResponseEntity.ok(applicationService.updateApplication(id, applicationRequestDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteApplication(@PathVariable Long id){
+        applicationService.deleteApplication(id);
     }
 }
