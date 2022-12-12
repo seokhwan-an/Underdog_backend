@@ -1,5 +1,6 @@
 package com.underdogCounty.underdogCountyProject.domain.application.entity;
 
+import com.underdogCounty.underdogCountyProject.domain.application.dto.ApplicationRequestDto;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -8,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Getter
-@Setter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Application {
@@ -19,16 +19,21 @@ public class Application {
     @Column(length = 50,nullable = false)
     private String email;
     @Column(length = 20,nullable = false)
-    private String phonenumber;
+    private String phoneNumber;
     @Column(columnDefinition = "TEXT", nullable = false)
     private String contents;
 
     @Builder
-    public Application(Long id, String name, String email, String phonenumber, String contents){
-        this.id=id;
+    public Application(String name, String email, String phoneNumber, String contents){
         this.name=name;
         this.email=email;
-        this.phonenumber=phonenumber;
+        this.phoneNumber=phoneNumber;
         this.contents=contents;
+    }
+
+    public void update(ApplicationRequestDto applicationRequestDto){
+        this.name = applicationRequestDto.getName();
+        this.email = applicationRequestDto.getEmail();
+        this.contents = applicationRequestDto.getContents();
     }
 }
