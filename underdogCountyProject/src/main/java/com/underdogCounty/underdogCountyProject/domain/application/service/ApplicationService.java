@@ -20,10 +20,6 @@ public class ApplicationService {
     @Autowired
     private JavaMailSender javaMailSender;
     private static final String FROM_ADDRESS = "rg970604@naver.com"; //여기에 대표자 이메일
-
-    @Autowired
-    private JavaMailSender javaMailSender;
-    private static final String FROM_ADDRESS = "rg970604@naver.com"; //여기에 대표자 이메일
     private static final String SUBJECT_SENDME = "[언더독 카운티]외주제작 신청서가 도착했습니다";
     private static final String SUBJECT_SENDCLIENT = "[언더독 카운티]요청하신 신청서 내용입니다";
 

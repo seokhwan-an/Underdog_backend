@@ -1,8 +1,8 @@
 package com.underdogCounty.underdogCountyProject.domain.work;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.underdogCounty.underdogCountyProject.domain.artist.Artist;
-import com.underdogCounty.underdogCountyProject.domain.company.Company;
+import com.underdogCounty.underdogCountyProject.domain.artist.entity.Artist;
+import com.underdogCounty.underdogCountyProject.domain.company.entity.Company;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Entity
-@Table(name = "work")
 public class Work {
 
     @Id
