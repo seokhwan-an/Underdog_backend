@@ -3,10 +3,11 @@ package com.underdogCounty.underdogCountyProject.domain.application.dto;
 import com.underdogCounty.underdogCountyProject.domain.application.entity.Application;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class ApplicationResponseDto {
     private Long id;
     private String name;
