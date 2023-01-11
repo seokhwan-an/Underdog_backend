@@ -7,6 +7,7 @@ import com.underdogCounty.underdogCountyProject.domain.work.repository.WorkRepos
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,5 +40,16 @@ public class WorkService {
         }
         WorkResponseDto result = new WorkResponseDto().entityToResponse(work.get());
         return result;
+    }
+
+    @Transactional
+    public WorkRequestDto update(Long id, WorkRequestDto workRequestDto) {
+        Optional<Work> work = workRepository.findById(id);
+        if (!work.isPresent()) {
+            throw new IllegalArgumentException("없는 작업물입니다.");
+        }
+        work.get().requestToEntity(workRequestDto);
+        workRepository.save(work.get());
+        return workRequestDto;
     }
 }
