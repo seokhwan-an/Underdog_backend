@@ -40,4 +40,9 @@ public class Artist {
         this.contents = artistRequestDto.getContents();
         this.profile = artistRequestDto.getProfile();
     }
+
+    public Artist updateImageUrl(Artist artist, String imageUrl) {
+        this.profile = imageUrl;
+        return artist;
+    }
 }
