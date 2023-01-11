@@ -6,6 +6,7 @@ import com.underdogCounty.underdogCountyProject.domain.work.dto.WorkResponseDto;
 import com.underdogCounty.underdogCountyProject.domain.work.service.WorkService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,5 +41,10 @@ public class WorkController {
     public WorkRequestDto update(@PathVariable Long id,
         @RequestBody WorkRequestDto workRequestDto) {
         return workService.update(id, workRequestDto);
+    }
+
+    @DeleteMapping("{id}")
+    public Long delete(@PathVariable Long id) {
+        return workService.delete(id);
     }
 }

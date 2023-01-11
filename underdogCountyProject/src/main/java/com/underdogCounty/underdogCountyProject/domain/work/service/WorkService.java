@@ -52,4 +52,13 @@ public class WorkService {
         workRepository.save(work.get());
         return workRequestDto;
     }
+
+    public Long delete(Long id) {
+        Optional<Work> work = workRepository.findById(id);
+        if (!work.isPresent()) {
+            throw new IllegalArgumentException("없는 작업물입니다.");
+        }
+        workRepository.delete(work.get());
+        return id;
+    }
 }
