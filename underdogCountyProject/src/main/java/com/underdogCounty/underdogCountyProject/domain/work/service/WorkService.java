@@ -2,6 +2,7 @@ package com.underdogCounty.underdogCountyProject.domain.work.service;
 
 import com.underdogCounty.underdogCountyProject.domain.artist.entity.Artist;
 import com.underdogCounty.underdogCountyProject.domain.global.S3.S3uploader.S3uploader;
+import com.underdogCounty.underdogCountyProject.domain.work.Category;
 import com.underdogCounty.underdogCountyProject.domain.work.Work;
 import com.underdogCounty.underdogCountyProject.domain.work.dto.WorkRequestDto;
 import com.underdogCounty.underdogCountyProject.domain.work.dto.WorkResponseDto;
@@ -47,6 +48,14 @@ public class WorkService {
             throw new IllegalArgumentException("없는 작업물입니다.");
         }
         WorkResponseDto result = new WorkResponseDto().entityToResponse(work.get());
+        return result;
+    }
+
+    public List<WorkResponseDto> getCategory(Category category) {
+        List<Work> works = workRepository.findByCategory(category);
+        List<WorkResponseDto> result = works.stream()
+            .map(s -> new WorkResponseDto().entityToResponse(s))
+            .collect(Collectors.toList());
         return result;
     }
 

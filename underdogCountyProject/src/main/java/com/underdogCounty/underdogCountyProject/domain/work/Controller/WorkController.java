@@ -1,6 +1,7 @@
 package com.underdogCounty.underdogCountyProject.domain.work.Controller;
 
 import com.underdogCounty.underdogCountyProject.domain.artist.entity.Artist;
+import com.underdogCounty.underdogCountyProject.domain.work.Category;
 import com.underdogCounty.underdogCountyProject.domain.work.Work;
 import com.underdogCounty.underdogCountyProject.domain.work.dto.WorkRequestDto;
 import com.underdogCounty.underdogCountyProject.domain.work.dto.WorkResponseDto;
@@ -40,6 +41,11 @@ public class WorkController {
     @GetMapping("{id}")
     public WorkResponseDto getOne(@PathVariable Long id) {
         return workService.getOne(id);
+    }
+
+    @GetMapping("/category")
+    public List<WorkResponseDto> getCategory(@RequestParam Category name) {
+        return workService.getCategory(name);
     }
 
     @PutMapping("{id}")
