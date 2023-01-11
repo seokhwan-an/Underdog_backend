@@ -31,10 +31,18 @@ public class Artist {
     @NotNull
     private String contents;
 
+    private String profile;
+
     @Builder
     public void requestToEntity(ArtistRequestDto artistRequestDto){
         this.name = artistRequestDto.getName();
         this.agency = artistRequestDto.getAgency();
         this.contents = artistRequestDto.getContents();
+        this.profile = artistRequestDto.getProfile();
+    }
+
+    public Artist updateImageUrl(Artist artist, String imageUrl) {
+        this.profile = imageUrl;
+        return artist;
     }
 }
