@@ -53,9 +53,14 @@ public class WorkController {
         return workService.delete(id);
     }
 
-    @PostMapping(value = "s3/{artistId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Work saveS3Image(@PathVariable Long artistId,
+    @PostMapping(value = "s3/{workId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Work saveS3Image(@PathVariable Long workId,
         @RequestParam(value = "profile") MultipartFile image) throws IOException {
-        return workService.uploadS3Image(artistId, image);
+        return workService.uploadS3Image(workId, image);
+    }
+
+    @DeleteMapping(value = "s3/{workId}")
+    public Work deleteS3Image(@PathVariable Long workId) {
+        return workService.deleteS3Image(workId);
     }
 }

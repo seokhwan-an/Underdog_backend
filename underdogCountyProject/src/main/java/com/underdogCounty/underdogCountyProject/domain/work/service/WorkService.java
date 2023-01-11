@@ -81,4 +81,13 @@ public class WorkService {
         }
         return workRepository.save(work);
     }
+
+    @Transactional
+    public Work deleteS3Image(Long id) {
+        Work work = workRepository.findById(id).orElseThrow(
+            () -> new IllegalArgumentException("해당 id가 없습니다")
+        );
+        work.deleteImageUrl(work);
+        return workRepository.save(work);
+    }
 }

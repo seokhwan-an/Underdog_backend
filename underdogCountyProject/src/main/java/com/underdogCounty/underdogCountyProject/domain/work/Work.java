@@ -36,4 +36,8 @@ public class Work {
         return work;
     }
 
+    public Work deleteImageUrl(Work work) {
+        this.image = null;
+        return work;
+    }
 }
