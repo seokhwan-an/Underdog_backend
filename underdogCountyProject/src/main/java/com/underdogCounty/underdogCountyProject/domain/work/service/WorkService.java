@@ -5,6 +5,7 @@ import com.underdogCounty.underdogCountyProject.domain.work.dto.WorkRequestDto;
 import com.underdogCounty.underdogCountyProject.domain.work.dto.WorkResponseDto;
 import com.underdogCounty.underdogCountyProject.domain.work.repository.WorkRepository;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,15 @@ public class WorkService {
         List<WorkResponseDto> result = works.stream()
             .map(s -> new WorkResponseDto().entityToResponse(s))
             .collect(Collectors.toList());
+        return result;
+    }
+
+    public WorkResponseDto getOne(Long id) {
+        Optional<Work> work = workRepository.findById(id);
+        if (!work.isPresent()) {
+            throw new IllegalArgumentException("없는 작업물입니다.");
+        }
+        WorkResponseDto result = new WorkResponseDto().entityToResponse(work.get());
         return result;
     }
 }
