@@ -79,4 +79,13 @@ public class ArtistService {
         }
         return artistRepository.save(artist);
     }
+
+    @Transactional
+    public Artist deleteS3Image(Long id) {
+        Artist artist = artistRepository.findById(id).orElseThrow(
+            () -> new IllegalArgumentException("해당 id가 없습니다")
+        );
+        artist.deleteImageUrl(artist);
+        return artistRepository.save(artist);
+    }
 }

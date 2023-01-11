@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,5 +61,9 @@ public class ArtistController {
         return artistService.uploadS3Image(artistId, image);
     }
 
+    @DeleteMapping(value = "s3/{artistId}")
+    public Artist deleteS3Image(@PathVariable Long artistId) {
+        return artistService.deleteS3Image(artistId);
+    }
 
 }
