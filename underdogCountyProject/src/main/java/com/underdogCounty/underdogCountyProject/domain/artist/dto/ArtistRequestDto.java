@@ -10,5 +10,6 @@ public class ArtistRequestDto {
   private String name;
   private String agency;
   private String contents;
+  private String profile;
 
 }

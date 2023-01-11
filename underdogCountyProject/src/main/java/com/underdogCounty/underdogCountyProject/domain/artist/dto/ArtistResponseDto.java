@@ -10,12 +10,15 @@ public class ArtistResponseDto {
   private String agency;
   private String contents;
 
+  private String profile;
+
   @Builder
   public ArtistResponseDto entityToResponse(Artist artist){
     ArtistResponseDto result = new ArtistResponseDto();
     result.name = artist.getName();
     result.agency = artist.getAgency();
     result.contents = artist.getContents();
+    result.profile = artist.getProfile();
     return result;
   }
 }
