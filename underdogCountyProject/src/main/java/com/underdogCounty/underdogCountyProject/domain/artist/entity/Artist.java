@@ -45,4 +45,9 @@ public class Artist {
         this.profile = imageUrl;
         return artist;
     }
+
+    public Artist deleteImageUrl(Artist artist) {
+        this.profile = null;
+        return artist;
+    }
 }

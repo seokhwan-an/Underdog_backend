@@ -26,46 +26,46 @@ public class ArtistService {
     @Autowired
     private S3uploader s3uploader;
 
-    public ResponseEntity<ArtistRequestDto> create(ArtistRequestDto artistRequestDto) {
+    public Artist create(ArtistRequestDto artistRequestDto) {
         Artist artist = new Artist();
         artist.requestToEntity(artistRequestDto);
         artistRepository.save(artist);
-        return new ResponseEntity<>(HttpStatus.CREATED, artistRequestDto);
+        return artist;
     }
 
-    public ResponseEntity<List<ArtistResponseDto>> getAll() {
+    public List<ArtistResponseDto> getAll() {
         List<Artist> artists = artistRepository.findAll();
         List<ArtistResponseDto> result = artists.stream()
             .map(s -> new ArtistResponseDto().entityToResponse(s)).collect(
                 Collectors.toList());
-        return new ResponseEntity<>(HttpStatus.OK, result);
+        return result;
     }
 
-    public ResponseEntity<ArtistResponseDto> getOne(Long id) {
+    public ArtistResponseDto getOne(Long id) {
         Optional<Artist> artist = artistRepository.findById(id);
         if (!artist.isPresent()) {
             throw new IllegalStateException("해당 아티스트가 존재하지 않습니다.");
         }
         ArtistResponseDto result = new ArtistResponseDto().entityToResponse(artist.get());
-        return new ResponseEntity<>(HttpStatus.OK, result);
+        return result;
     }
 
-    public ResponseEntity<ArtistRequestDto> update(Long id, ArtistRequestDto artistRequestDto) {
+    public ArtistRequestDto update(Long id, ArtistRequestDto artistRequestDto) {
         Optional<Artist> artist = artistRepository.findById(id);
         if (!artist.isPresent()) {
             throw new IllegalStateException("해당 아티스트가 존재하지 않습니다.");
         }
         artist.get().requestToEntity(artistRequestDto);
-        return new ResponseEntity<>(HttpStatus.OK, artistRequestDto);
+        return artistRequestDto;
     }
 
-    public ResponseEntity<Void> delete(Long id) {
+    public Long delete(Long id) {
         Optional<Artist> artist = artistRepository.findById(id);
         if (!artist.isPresent()) {
             throw new IllegalStateException("해당 아티스트가 존재하지 않습니다.");
         }
         artistRepository.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.OK, null);
+        return id;
     }
 
     @Transactional
@@ -77,6 +77,15 @@ public class ArtistService {
             String storedFileName = s3uploader.upload(image, "images");
             artist.updateImageUrl(artist, storedFileName);
         }
+        return artistRepository.save(artist);
+    }
+
+    @Transactional
+    public Artist deleteS3Image(Long id) {
+        Artist artist = artistRepository.findById(id).orElseThrow(
+            () -> new IllegalArgumentException("해당 id가 없습니다")
+        );
+        artist.deleteImageUrl(artist);
         return artistRepository.save(artist);
     }
 }

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,29 +29,30 @@ public class ArtistController {
     private final ArtistService artistService;
 
     @PostMapping()
-    public ResponseEntity<ArtistRequestDto> create(@RequestBody ArtistRequestDto artistRequestDto) {
+    public Artist create(@RequestBody ArtistRequestDto artistRequestDto) {
         return artistService.create(artistRequestDto);
     }
 
     @GetMapping()
-    public ResponseEntity<List<ArtistResponseDto>> getAll() {
+    public List<ArtistResponseDto> getAll() {
         return artistService.getAll();
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ArtistResponseDto> getOne(@PathVariable Long id) {
+    public ArtistResponseDto getOne(@PathVariable Long id) {
         return artistService.getOne(id);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ArtistRequestDto> update(@PathVariable Long id,
+    public ArtistRequestDto update(@PathVariable Long id,
         @RequestBody ArtistRequestDto artistRequestDto) {
         return artistService.update(id, artistRequestDto);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        return artistService.delete(id);
+    public Long delete(@PathVariable Long id) {
+        artistService.delete(id);
+        return id;
     }
 
     @PostMapping(value = "s3/{artistId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -58,4 +60,10 @@ public class ArtistController {
         @RequestParam(value = "profile") MultipartFile image) throws IOException {
         return artistService.uploadS3Image(artistId, image);
     }
+
+    @DeleteMapping(value = "s3/{artistId}")
+    public Artist deleteS3Image(@PathVariable Long artistId) {
+        return artistService.deleteS3Image(artistId);
+    }
+
 }
