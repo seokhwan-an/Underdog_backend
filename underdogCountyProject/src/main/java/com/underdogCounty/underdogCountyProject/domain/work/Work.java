@@ -17,21 +17,10 @@ public class Work {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    private String originFileName;
-
-    @NotNull
-    private String filePath;
-
-    @NotNull
-    private Long fileSize;
+    private String image;
 
     @Enumerated(EnumType.STRING)
     @NotNull
     private Category category;
 
-    @ManyToOne(targetEntity = Artist.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "artist_id")
-    @JsonBackReference
-    private Artist artist;
 }
