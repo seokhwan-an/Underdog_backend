@@ -25,13 +25,40 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .httpBasic().disable()
+            .cors().and()
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-            .antMatchers("/members/login").permitAll()
-            .antMatchers("/members/signup").permitAll()
-            .antMatchers("/members/test").hasRole("USER")
+            //index
+            .antMatchers("/api").permitAll()
+            //login
+            .antMatchers("/api/members/login").permitAll()
+            .antMatchers("/api/members/signup").permitAll()
+            //about
+            .antMatchers(HttpMethod.GET,"/api/about/**").permitAll()
+            .antMatchers(HttpMethod.POST,"/api/about").hasRole("USER")
+            .antMatchers(HttpMethod.PUT,"/api/about/**").hasRole("USER")
+            .antMatchers(HttpMethod.DELETE,"/api/about/**").hasRole("USER")
+            //application
+            .antMatchers(HttpMethod.GET,"/api/application/**").permitAll()
+            .antMatchers(HttpMethod.POST,"/api/application").hasRole("USER")
+            .antMatchers(HttpMethod.PUT,"/api/application/**").hasRole("USER")
+            .antMatchers(HttpMethod.DELETE,"/api/application/**").hasRole("USER")
+            //artist
+            .antMatchers(HttpMethod.GET,"/api/artist/**").permitAll()
+            .antMatchers(HttpMethod.POST,"/api/artist").hasRole("USER")
+            .antMatchers(HttpMethod.PUT,"/api/artist/**").hasRole("USER")
+            .antMatchers(HttpMethod.DELETE,"/api/artist/**").hasRole("USER")
+            .antMatchers(HttpMethod.POST,"/api/artist/s3/**").hasRole("USER")
+            .antMatchers(HttpMethod.DELETE,"/api/artist/**").hasRole("USER")
+            //work
+            .antMatchers(HttpMethod.GET,"/api/work/**").permitAll()
+            .antMatchers(HttpMethod.POST,"/api/work").hasRole("USER")
+            .antMatchers(HttpMethod.PUT,"/api/work/**").hasRole("USER")
+            .antMatchers(HttpMethod.DELETE,"/api/work/**").hasRole("USER")
+            .antMatchers(HttpMethod.POST,"/api/work/s3/**").hasRole("USER")
+            .antMatchers(HttpMethod.DELETE,"/api/work/s3/**").hasRole("USER")
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);

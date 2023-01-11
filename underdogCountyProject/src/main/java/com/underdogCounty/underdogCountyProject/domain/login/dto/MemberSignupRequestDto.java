@@ -13,6 +13,7 @@ public class MemberSignupRequestDto {
         return Member.builder()
             .memberId(this.memberId)
             .password(this.password)
+            .roles(List.of("USER"))
             .build();
     }
 

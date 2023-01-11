@@ -25,9 +25,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 public class Member implements UserDetails {
 
-    @Id @GeneratedValue
-    private Long id;
-
+    @Id
     @Column(updatable = false, unique = true, nullable = false)
     private String memberId;
 
