@@ -31,4 +31,9 @@ public class Work {
         this.category = workRequestDto.getCategory();
     }
 
+    public Work updateImageUrl(Work work, String imageUrl) {
+        this.image = imageUrl;
+        return work;
+    }
+
 }
