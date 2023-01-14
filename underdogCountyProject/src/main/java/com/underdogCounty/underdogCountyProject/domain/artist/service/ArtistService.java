@@ -4,8 +4,8 @@ import com.underdogCounty.underdogCountyProject.domain.artist.dto.ArtistRequestD
 import com.underdogCounty.underdogCountyProject.domain.artist.dto.ArtistResponseDto;
 import com.underdogCounty.underdogCountyProject.domain.artist.entity.Artist;
 import com.underdogCounty.underdogCountyProject.domain.artist.repository.ArtistRepository;
+import com.underdogCounty.underdogCountyProject.domain.exception.WrongArtist;
 import com.underdogCounty.underdogCountyProject.domain.global.S3.S3uploader.S3uploader;
-import com.underdogCounty.underdogCountyProject.domain.util.ResponseEntity;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,7 +43,7 @@ public class ArtistService {
     public ArtistResponseDto getOne(Long id) {
         Optional<Artist> artist = artistRepository.findById(id);
         if (!artist.isPresent()) {
-            throw new IllegalStateException("해당 아티스트가 존재하지 않습니다.");
+            throw new WrongArtist();
         }
         ArtistResponseDto result = new ArtistResponseDto().entityToResponse(artist.get());
         return result;
@@ -53,7 +52,7 @@ public class ArtistService {
     public ArtistRequestDto update(Long id, ArtistRequestDto artistRequestDto) {
         Optional<Artist> artist = artistRepository.findById(id);
         if (!artist.isPresent()) {
-            throw new IllegalStateException("해당 아티스트가 존재하지 않습니다.");
+            throw new WrongArtist();
         }
         artist.get().requestToEntity(artistRequestDto);
         artistRepository.save(artist.get());
@@ -63,7 +62,7 @@ public class ArtistService {
     public Long delete(Long id) {
         Optional<Artist> artist = artistRepository.findById(id);
         if (!artist.isPresent()) {
-            throw new IllegalStateException("해당 아티스트가 존재하지 않습니다.");
+            throw new WrongArtist();
         }
         artistRepository.deleteById(id);
         return id;
@@ -72,7 +71,7 @@ public class ArtistService {
     @Transactional
     public Artist uploadS3Image(Long id, MultipartFile image) throws IOException {
         Artist artist = artistRepository.findById(id).orElseThrow(
-            () -> new IllegalArgumentException("해당 아티스트가 없습니다.")
+            () -> new WrongArtist()
         );
         if (!image.isEmpty()) {
             String storedFileName = s3uploader.upload(image, "images");
@@ -84,7 +83,7 @@ public class ArtistService {
     @Transactional
     public Artist deleteS3Image(Long id) {
         Artist artist = artistRepository.findById(id).orElseThrow(
-            () -> new IllegalArgumentException("해당 id가 없습니다")
+            () -> new WrongArtist()
         );
         artist.deleteImageUrl(artist);
         return artistRepository.save(artist);
