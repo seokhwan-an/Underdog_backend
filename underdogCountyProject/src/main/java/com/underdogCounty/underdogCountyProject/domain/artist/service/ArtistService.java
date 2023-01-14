@@ -56,6 +56,7 @@ public class ArtistService {
             throw new IllegalStateException("해당 아티스트가 존재하지 않습니다.");
         }
         artist.get().requestToEntity(artistRequestDto);
+        artistRepository.save(artist.get());
         return artistRequestDto;
     }
 
