@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
-@RequestMapping("api/artist")
+@RequestMapping("${app-artist}")
 @RestController
 public class ArtistController {
 

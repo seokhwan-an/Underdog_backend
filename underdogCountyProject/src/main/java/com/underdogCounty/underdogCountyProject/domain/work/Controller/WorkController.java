@@ -1,6 +1,5 @@
 package com.underdogCounty.underdogCountyProject.domain.work.Controller;
 
-import com.underdogCounty.underdogCountyProject.domain.artist.entity.Artist;
 import com.underdogCounty.underdogCountyProject.domain.work.Category;
 import com.underdogCounty.underdogCountyProject.domain.work.Work;
 import com.underdogCounty.underdogCountyProject.domain.work.dto.WorkRequestDto;
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
-@RequestMapping("api/work")
+@RequestMapping("${app-work}")
 @RestController
 public class WorkController {
 

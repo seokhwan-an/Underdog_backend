@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "api/application")
+@RequestMapping(value = "${app-application}")
 @RequiredArgsConstructor
 public class ApplicationController {
 

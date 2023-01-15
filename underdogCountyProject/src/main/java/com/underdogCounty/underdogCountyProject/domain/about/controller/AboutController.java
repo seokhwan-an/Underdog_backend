@@ -17,29 +17,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "api/about")
+@RequestMapping(value = "${app-about}")
 @RequiredArgsConstructor
 public class AboutController {
 
     private final AboutService aboutService;
 
     @PostMapping
-    public ResponseEntity<About> createAbout(@RequestBody AboutRequestDto aboutRequestDto){
+    public ResponseEntity<About> createAbout(@RequestBody AboutRequestDto aboutRequestDto) {
         return ResponseEntity.ok(aboutService.createAbout(aboutRequestDto));
     }
 
     @GetMapping
-    public ResponseEntity<List<AboutResponseDto>> readAbout(){
+    public ResponseEntity<List<AboutResponseDto>> readAbout() {
         return ResponseEntity.ok(aboutService.readAbout());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<About> updateAbout(@PathVariable Long id, @RequestBody AboutRequestDto aboutRequestDto){
-        return ResponseEntity.ok(aboutService.updateAbout(id,aboutRequestDto));
+    public ResponseEntity<About> updateAbout(@PathVariable Long id,
+        @RequestBody AboutRequestDto aboutRequestDto) {
+        return ResponseEntity.ok(aboutService.updateAbout(id, aboutRequestDto));
     }
 
     @DeleteMapping
-    public void deleteAbout(){
+    public void deleteAbout() {
         aboutService.deleteAbout();
     }
 
