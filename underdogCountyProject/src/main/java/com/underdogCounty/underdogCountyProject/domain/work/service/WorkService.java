@@ -1,6 +1,6 @@
 package com.underdogCounty.underdogCountyProject.domain.work.service;
 
-import com.underdogCounty.underdogCountyProject.domain.artist.entity.Artist;
+import com.underdogCounty.underdogCountyProject.domain.exception.WrongWork;
 import com.underdogCounty.underdogCountyProject.domain.global.S3.S3uploader.S3uploader;
 import com.underdogCounty.underdogCountyProject.domain.work.Category;
 import com.underdogCounty.underdogCountyProject.domain.work.Work;
@@ -15,7 +15,6 @@ import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
@@ -23,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class WorkService {
 
     private final WorkRepository workRepository;
-
     @Autowired
     private S3uploader s3uploader;
 
@@ -45,7 +43,7 @@ public class WorkService {
     public WorkResponseDto getOne(Long id) {
         Optional<Work> work = workRepository.findById(id);
         if (!work.isPresent()) {
-            throw new IllegalArgumentException("없는 작업물입니다.");
+            throw new WrongWork();
         }
         WorkResponseDto result = new WorkResponseDto().entityToResponse(work.get());
         return result;
@@ -63,7 +61,7 @@ public class WorkService {
     public WorkRequestDto update(Long id, WorkRequestDto workRequestDto) {
         Optional<Work> work = workRepository.findById(id);
         if (!work.isPresent()) {
-            throw new IllegalArgumentException("없는 작업물입니다.");
+            throw new WrongWork();
         }
         work.get().requestToEntity(workRequestDto);
         workRepository.save(work.get());
@@ -73,7 +71,7 @@ public class WorkService {
     public Long delete(Long id) {
         Optional<Work> work = workRepository.findById(id);
         if (!work.isPresent()) {
-            throw new IllegalArgumentException("없는 작업물입니다.");
+            throw new WrongWork();
         }
         workRepository.delete(work.get());
         return id;
@@ -82,7 +80,7 @@ public class WorkService {
     @Transactional
     public Work uploadS3Image(Long id, MultipartFile image) throws IOException {
         Work work = workRepository.findById(id).orElseThrow(
-            () -> new IllegalArgumentException("해당 아티스트가 없습니다.")
+            () -> new WrongWork()
         );
         if (!image.isEmpty()) {
             String storedFileName = s3uploader.upload(image, "images");
@@ -94,7 +92,7 @@ public class WorkService {
     @Transactional
     public Work deleteS3Image(Long id) {
         Work work = workRepository.findById(id).orElseThrow(
-            () -> new IllegalArgumentException("해당 id가 없습니다")
+            () -> new WrongWork()
         );
         work.deleteImageUrl(work);
         return workRepository.save(work);
