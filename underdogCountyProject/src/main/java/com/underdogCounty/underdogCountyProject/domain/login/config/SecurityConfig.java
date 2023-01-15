@@ -30,19 +30,16 @@ public class SecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-            //index
-            .antMatchers("/api").permitAll()
             //login
             .antMatchers("/api/members/login").permitAll()
-            .antMatchers("/api/members/signup").permitAll()
-            //about
-            .antMatchers(HttpMethod.GET,"/api/about/**").permitAll()
-            .antMatchers(HttpMethod.POST,"/api/about").hasRole("USER")
-            .antMatchers(HttpMethod.PUT,"/api/about/**").hasRole("USER")
-            .antMatchers(HttpMethod.DELETE,"/api/about/**").hasRole("USER")
+//            //about
+//            .antMatchers(HttpMethod.GET,"/api/about/**").permitAll()
+//            .antMatchers(HttpMethod.POST,"/api/about").hasRole("USER")
+//            .antMatchers(HttpMethod.PUT,"/api/about/**").hasRole("USER")
+//            .antMatchers(HttpMethod.DELETE,"/api/about/**").hasRole("USER")
             //application
-            .antMatchers(HttpMethod.GET,"/api/application/**").permitAll()
-            .antMatchers(HttpMethod.POST,"/api/application").hasRole("USER")
+            .antMatchers(HttpMethod.GET,"/api/application/**").hasRole("USER")
+            .antMatchers(HttpMethod.POST,"/api/application").permitAll()
             .antMatchers(HttpMethod.PUT,"/api/application/**").hasRole("USER")
             .antMatchers(HttpMethod.DELETE,"/api/application/**").hasRole("USER")
             //artist
