@@ -42,8 +42,8 @@ public class ExceptionHandlerController {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ErrorResult nullInput(MethodArgumentNotValidException e) {
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ErrorResult nullInput(ConstraintViolationException e) {
         return new ErrorResult(ExceptionCode.NULL_INPUT);
     }
 
