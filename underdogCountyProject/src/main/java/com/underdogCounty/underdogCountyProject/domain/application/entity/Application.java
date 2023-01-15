@@ -1,6 +1,7 @@
 package com.underdogCounty.underdogCountyProject.domain.application.entity;
 
 import com.underdogCounty.underdogCountyProject.domain.application.dto.ApplicationRequestDto;
+import javax.validation.constraints.NotNull;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -15,12 +16,16 @@ public class Application {
     @Id @GeneratedValue
     private Long id;
     @Column(length = 20,nullable = false)
+    @NotNull
     private String name;
     @Column(length = 50,nullable = false)
+    @NotNull
     private String email;
     @Column(length = 20,nullable = false)
+    @NotNull
     private String phoneNumber;
     @Column(columnDefinition = "TEXT", nullable = false)
+    @NotNull
     private String contents;
 
     @Builder
