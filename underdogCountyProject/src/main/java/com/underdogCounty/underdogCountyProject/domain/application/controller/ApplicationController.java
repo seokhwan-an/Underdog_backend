@@ -4,6 +4,7 @@ import com.underdogCounty.underdogCountyProject.domain.application.dto.Applicati
 import com.underdogCounty.underdogCountyProject.domain.application.dto.ApplicationResponseDto;
 import com.underdogCounty.underdogCountyProject.domain.application.entity.Application;
 import com.underdogCounty.underdogCountyProject.domain.application.service.ApplicationService;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class ApplicationController {
     private final ApplicationService applicationService;
 
     @PostMapping
-    public ResponseEntity<Application> createApplication(@RequestBody ApplicationRequestDto applicationRequestDto) {
+    public ResponseEntity<Application> createApplication(@Valid @RequestBody ApplicationRequestDto applicationRequestDto) {
         return ResponseEntity.ok(applicationService.createApplication(applicationRequestDto));
     }
 
