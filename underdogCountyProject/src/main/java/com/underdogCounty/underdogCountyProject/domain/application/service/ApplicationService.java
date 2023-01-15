@@ -4,6 +4,9 @@ import com.underdogCounty.underdogCountyProject.domain.application.dto.Applicati
 import com.underdogCounty.underdogCountyProject.domain.application.dto.ApplicationResponseDto;
 import com.underdogCounty.underdogCountyProject.domain.application.entity.Application;
 import com.underdogCounty.underdogCountyProject.domain.application.repository.ApplicationRepository;
+import com.underdogCounty.underdogCountyProject.domain.exception.WrongEmail;
+import com.underdogCounty.underdogCountyProject.domain.exception.WrongPhoneNumber;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -17,11 +20,14 @@ import java.util.Optional;
 
 @Service
 public class ApplicationService {
+
     @Autowired
     private JavaMailSender javaMailSender;
     private static final String FROM_ADDRESS = "rg970604@naver.com"; //여기에 대표자 이메일
     private static final String SUBJECT_SENDME = "[언더독 카운티]외주제작 신청서가 도착했습니다";
     private static final String SUBJECT_SENDCLIENT = "[언더독 카운티]요청하신 신청서 내용입니다";
+    private static final String EMAIL_PATTERN = "^[A-Za-z0-9+_.-]+@(.+)$";
+    private static final String PHONENUMBER_PATTERN = "\\d{3}-\\d{4}-\\d{4}";
 
     private final ApplicationRepository applicationRepository;
 
@@ -30,9 +36,20 @@ public class ApplicationService {
     }
 
     public Application createApplication(ApplicationRequestDto applicationRequestDto) {
+        String email = applicationRequestDto.getEmail();
+        patternValidation(applicationRequestDto, email);
         sendEmail(applicationRequestDto);
         Application application = ApplicationRequestDto.toEntity(applicationRequestDto);
         return applicationRepository.save(application);
+    }
+
+    private static void patternValidation(ApplicationRequestDto applicationRequestDto, String email) {
+        if (!Pattern.matches(EMAIL_PATTERN, email)) {
+            throw new WrongEmail();
+        }
+        if (!Pattern.matches(PHONENUMBER_PATTERN, applicationRequestDto.getPhoneNumber())){
+            throw new WrongPhoneNumber();
+        }
     }
 
     private void sendEmail(ApplicationRequestDto applicationRequestDto) {
@@ -90,17 +107,16 @@ public class ApplicationService {
         return applicationRepository.findAllByName(name);
     }
 
-    public Application updateApplication(Long id, ApplicationRequestDto applicationRequestDto){
+    public Application updateApplication(Long id, ApplicationRequestDto applicationRequestDto) {
         Application application = applicationRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         application.update(applicationRequestDto);
         return applicationRepository.save(application);
     }
 
-    public void deleteApplication(Long id){
+    public void deleteApplication(Long id) {
         Application application = applicationRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         applicationRepository.delete(application);
     }
-
 
 
 }
