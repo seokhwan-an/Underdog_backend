@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArtistResponseDto {
+  private Long id;
   private String name;
   private String agency;
   private String contents;
@@ -20,6 +21,7 @@ public class ArtistResponseDto {
   @Builder
   public ArtistResponseDto entityToResponse(Artist artist){
     ArtistResponseDto result = new ArtistResponseDto();
+    result.id = artist.getId();
     result.name = artist.getName();
     result.agency = artist.getAgency();
     result.contents = artist.getContents();
