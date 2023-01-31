@@ -30,6 +30,7 @@ public class ApplicationResponseDto {
             .name(application.getName())
             .email(application.getEmail())
             .phoneNumber(application.getPhoneNumber())
+            .contents(application.getContents())
             .build();
     }
 }

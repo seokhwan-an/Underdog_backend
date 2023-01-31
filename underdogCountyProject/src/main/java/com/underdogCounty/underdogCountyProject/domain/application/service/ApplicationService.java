@@ -89,7 +89,7 @@ public class ApplicationService {
     public List<ApplicationResponseDto> readApplications(String name) {
         List<Application> applications = findApplicationsByName(name);
         if (applications.isEmpty()) {
-            throw new EntityNotFoundException("신청서가 없습니다");
+            return new ArrayList<>();
         }
         return applications.stream()
             .map(
