@@ -16,5 +16,5 @@ public class ArtistRequestDto {
   private String agency;
   private String contents;
   private String profile;
-
+  private String instarGram;
 }
