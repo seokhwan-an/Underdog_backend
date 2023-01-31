@@ -1,5 +1,5 @@
 package com.underdogCounty.underdogCountyProject.domain.work;
 
 public enum Category {
-    Company, Artist, ArtWork
+    COMMERCIAL, SNAP, VIDEO, PRODUCT, PROFILE
 }
