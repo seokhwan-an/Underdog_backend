@@ -42,9 +42,9 @@ public class WorkController {
         return workService.getOne(id);
     }
 
-    @GetMapping("/category")
-    public List<WorkResponseDto> getCategory(@RequestParam Category name) {
-        return workService.getCategory(name);
+    @GetMapping("category/{category}")
+    public List<WorkResponseDto> getCategory(@PathVariable Category category) {
+        return workService.getCategory(category);
     }
 
     @PutMapping("{id}")
