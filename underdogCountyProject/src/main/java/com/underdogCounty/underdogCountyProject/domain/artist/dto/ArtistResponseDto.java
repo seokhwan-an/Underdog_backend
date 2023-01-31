@@ -15,8 +15,9 @@ public class ArtistResponseDto {
   private String name;
   private String agency;
   private String contents;
-
   private String profile;
+
+  private String instarGram;
 
   @Builder
   public ArtistResponseDto entityToResponse(Artist artist){
@@ -26,6 +27,7 @@ public class ArtistResponseDto {
     result.agency = artist.getAgency();
     result.contents = artist.getContents();
     result.profile = artist.getProfile();
+    result.instarGram = artist.getInstarGram();
     return result;
   }
 }
